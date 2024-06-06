@@ -8,7 +8,7 @@ router.get("/:slug", postsController.show);
 
 router.post("/", postsController.store);
 
-// router.put('/:slug', postsController.update);
+router.put("/:slug", postsController.update);
 
 // router.delete('/:slug', postsController.destroy);
 

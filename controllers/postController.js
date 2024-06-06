@@ -35,8 +35,27 @@ const show = async (req, res) => {
   res.json(post);
 };
 
+const update = async (req, res) => {
+  const { slug } = req.params;
+  const { title, content, published } = req.body;
+
+  const post = await prisma.post.update({
+    where: {
+      slug,
+    },
+    data: {
+      title,
+      content,
+      published,
+    },
+  });
+
+  res.json(post);
+};
+
 module.exports = {
   index,
   show,
   store,
+  update,
 };
