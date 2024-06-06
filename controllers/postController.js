@@ -23,7 +23,20 @@ const index = async (req, res) => {
   res.json(posts);
 };
 
+const show = async (req, res) => {
+  const { slug } = req.params;
+
+  const post = await prisma.post.findUnique({
+    where: {
+      slug,
+    },
+  });
+
+  res.json(post);
+};
+
 module.exports = {
   index,
+  show,
   store,
 };

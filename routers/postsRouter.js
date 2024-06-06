@@ -4,7 +4,7 @@ const router = express.Router();
 const postsController = require("../controllers/postController");
 
 router.get("/", postsController.index);
-// router.get('/:slug', postsController.show);
+router.get("/:slug", postsController.show);
 
 router.post("/", postsController.store);
 
