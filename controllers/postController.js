@@ -6,63 +6,81 @@ const store = async (req, res) => {
 
   const slug = title.toLowerCase().split(" ").join("-");
 
-  const post = await prisma.post.create({
-    data: {
-      title,
-      slug,
-      content,
-    },
-  });
+  try {
+    const post = await prisma.post.create({
+      data: {
+        title,
+        slug,
+        content,
+      },
+    });
 
-  res.json(post);
+    res.json(post);
+  } catch (error) {
+    res.json({ error: "An error occurred" });
+  }
 };
 
 const index = async (req, res) => {
-  const posts = await prisma.post.findMany();
-
-  res.json(posts);
+  try {
+    const posts = await prisma.post.findMany();
+    res.json(posts);
+  } catch (error) {
+    res.json({ error: "An error occurred" });
+  }
 };
 
 const show = async (req, res) => {
   const { slug } = req.params;
 
-  const post = await prisma.post.findUnique({
-    where: {
-      slug,
-    },
-  });
+  try {
+    const post = await prisma.post.findUnique({
+      where: {
+        slug,
+      },
+    });
 
-  res.json(post);
+    res.json(post);
+  } catch (error) {
+    res.json({ error: "An error occurred" });
+  }
 };
 
 const update = async (req, res) => {
   const { slug } = req.params;
   const { title, content, published } = req.body;
 
-  const post = await prisma.post.update({
-    where: {
-      slug,
-    },
-    data: {
-      title,
-      content,
-      published,
-    },
-  });
+  try {
+    const post = await prisma.post.update({
+      where: {
+        slug,
+      },
+      data: {
+        title,
+        content,
+        published,
+      },
+    });
 
-  res.json(post);
+    res.json(post);
+  } catch (error) {
+    res.json({ error: "An error occurred" });
+  }
 };
 
 const destroy = async (req, res) => {
   const { slug } = req.params;
+  try {
+    const post = await prisma.post.delete({
+      where: {
+        slug,
+      },
+    });
 
-  const post = await prisma.post.delete({
-    where: {
-      slug,
-    },
-  });
-
-  res.json(post);
+    res.json(post);
+  } catch (error) {
+    res.json({ error: "An error occurred" });
+  }
 };
 
 module.exports = {
