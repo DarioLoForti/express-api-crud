@@ -17,6 +17,13 @@ const store = async (req, res) => {
   res.json(post);
 };
 
+const index = async (req, res) => {
+  const posts = await prisma.post.findMany();
+
+  res.json(posts);
+};
+
 module.exports = {
+  index,
   store,
 };
