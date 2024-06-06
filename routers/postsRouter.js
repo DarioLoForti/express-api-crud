@@ -10,6 +10,6 @@ router.post("/", postsController.store);
 
 router.put("/:slug", postsController.update);
 
-// router.delete('/:slug', postsController.destroy);
+router.delete("/:slug", postsController.destroy);
 
 module.exports = router;

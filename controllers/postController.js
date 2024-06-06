@@ -53,9 +53,22 @@ const update = async (req, res) => {
   res.json(post);
 };
 
+const destroy = async (req, res) => {
+  const { slug } = req.params;
+
+  const post = await prisma.post.delete({
+    where: {
+      slug,
+    },
+  });
+
+  res.json(post);
+};
+
 module.exports = {
   index,
   show,
   store,
   update,
+  destroy,
 };
