@@ -23,8 +23,43 @@ const store = async (req, res) => {
 
 const index = async (req, res) => {
   try {
-    const posts = await prisma.post.findMany();
-    res.json(posts);
+    const where = {};
+    const { published, search, page = 1, limit = 10 } = req.query;
+
+    if (published) {
+      where.published = published === "true";
+    }
+
+    if (search) {
+      where.OR = [
+        {
+          title: {
+            contains: search,
+          },
+        },
+        {
+          content: {
+            contains: search,
+          },
+        },
+      ];
+    }
+
+    const totalPosts = await prisma.post.count({
+      where,
+    });
+
+    const totalPages = Math.ceil(totalPosts / limit);
+
+    const offset = (page - 1) * limit;
+
+    const posts = await prisma.post.findMany({
+      where,
+      take: parseInt(limit),
+      skip: offset,
+    });
+
+    res.json({ posts, totalPages, currentPage: parseInt(page), totalPosts });
   } catch (error) {
     res.json({ error: "An error occurred" });
   }
